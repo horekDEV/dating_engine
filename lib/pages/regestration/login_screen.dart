@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -18,6 +19,83 @@ class _LoginScreenState extends State<LoginScreen> {
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
+  }
+
+  Future<bool?>? validateEmail(String email) {
+    final emailRegex = RegExp(r'^[^\s@]+@[^\s@]+\.[^\s@]+$');
+
+    if (email.isEmpty) {
+      return Fluttertoast.showToast(
+          msg: "Введите email!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.white,
+          textColor: Colors.black,
+          fontSize: 16.0);
+    } else if (emailRegex.hasMatch(email)) {
+      return Fluttertoast.showToast(
+          msg: "Введите свой email корректно!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.white,
+          textColor: Colors.black,
+          fontSize: 16.0);
+    } else {
+      return null;
+    }
+  }
+
+  Future<bool?>? validatePassword(String password) {
+    if (password.length < 8) {
+      return Fluttertoast.showToast(
+          msg: "В вашем пароле должно быть минимум 8 символов!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.white,
+          textColor: Colors.black,
+          fontSize: 16.0);
+    } else if (password.contains(RegExp(r'[A-Z]'))) {
+      return Fluttertoast.showToast(
+          msg: "Введите хотя бы одну заглавную букву!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.white,
+          textColor: Colors.black,
+          fontSize: 16.0);
+    } else if (password.contains(RegExp(r'[a-z]'))) {
+      return Fluttertoast.showToast(
+          msg: "Введите хотя бы одну строчную букву!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.white,
+          textColor: Colors.black,
+          fontSize: 16.0);
+    } else if (password.contains(RegExp(r'[0-9]'))) {
+      return Fluttertoast.showToast(
+          msg: "В вашем пароле должна быть хотя бы одна цифра!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.white,
+          textColor: Colors.black,
+          fontSize: 16.0);
+    } else if (password.contains(RegExp(r'[^A-Za-z0-9]'))) {
+      return Fluttertoast.showToast(
+          msg: "В вашем пароле должен быть специальный символ!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.white,
+          textColor: Colors.black,
+          fontSize: 16.0);
+    } else {
+      return null;
+    }
   }
 
   @override
@@ -115,9 +193,7 @@ class _LoginScreenState extends State<LoginScreen> {
               const SizedBox(height: 40),
               InkWell(
                 onTap: () => {
-                  Navigator.pop(context),
-                  Navigator.pushNamed(context,
-                      '/') // TODO(переход на другую страницу, а так же проверку данных)
+                  
                 },
                 child: Container(
                   width: 343,
